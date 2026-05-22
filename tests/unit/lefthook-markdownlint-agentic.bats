@@ -64,6 +64,20 @@ MDEOF
     assert_success
 }
 
+@test "accepts fenced code blocks in list items (MD031)" {
+    cat > "$TEST_TEMP/list-code.md" << 'MDEOF'
+# Steps
+
+- Step one:
+  ```bash
+  echo hello
+  ```
+- Step two
+MDEOF
+    run lefthook-markdownlint-agentic "$TEST_TEMP/list-code.md"
+    assert_success
+}
+
 @test "detects actual markdown errors" {
     cat > "$TEST_TEMP/bad.md" << 'MDEOF'
 # Hello
