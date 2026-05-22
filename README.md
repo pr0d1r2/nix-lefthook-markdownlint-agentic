@@ -6,14 +6,14 @@
 
 Lefthook-compatible [markdownlint](https://github.com/igorshubovych/markdownlint-cli) wrapper for agentic skill and command files, packaged as a Nix flake.
 
-Uses relaxed markdownlint rules suited for agentic markdown files (Claude Code skills, commands, etc.) that don't follow standard documentation conventions:
+Disables agentic-specific rules via `--disable` flags, so consuming repos can keep a strict `.markdownlint.yml` for documentation while this wrapper relaxes rules for skill/command files:
 
-- **MD013** (line length) -- disabled
-- **MD024** (duplicate headings) -- disabled
-- **MD031** (fenced code blocks in list items) -- disabled
-- **MD040** (fenced code block language) -- disabled
-- **MD041** (first line heading) -- disabled
-- **MD060** (table column count) -- disabled
+- **MD031** (fenced code blocks in list items) -- disabled via `--disable`
+- **MD040** (fenced code block language) -- disabled via `--disable`
+- **MD041** (first line heading) -- disabled via `--disable`
+- **MD060** (table column count) -- disabled via `--disable`
+
+The project's `.markdownlint.yml` is still respected for all other rules (e.g., MD013, MD024 if disabled there).
 
 Filters `.md` files from staged arguments and runs markdownlint on them. Exits 0 when no matching files are found.
 

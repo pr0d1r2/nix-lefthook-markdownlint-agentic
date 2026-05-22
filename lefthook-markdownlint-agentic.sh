@@ -18,4 +18,4 @@ if [ ${#files[@]} -eq 0 ]; then
     exit 0
 fi
 
-exec markdownlint "${files[@]}"
+exec markdownlint --disable MD031 MD040 MD041 MD060 -- "${files[@]}"
