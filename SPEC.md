@@ -56,7 +56,7 @@ files, runs `markdownlint --disable MD031 MD040 MD041 MD060 --`.
 
 | status | id | goal |
 | --- | --- | --- |
-| `.` | T1 | Add `watch_file` entries in `.envrc` for flake modules |
+| `x` | T1 | Add `watch_file` entries in `.envrc` for flake modules |
 | `.` | T2 | Add bats test verifying MD060 is accepted when disabled |
 | `.` | T3 | Normalize bats load paths (`.bash` extension inconsistency) |
 | `.` | T4 | Add `.md`/`.sh` to `file_size_limits.yml` |
