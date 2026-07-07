@@ -110,3 +110,55 @@ MDEOF
     run lefthook-markdownlint-agentic "$TEST_TEMP/good.md" "$TEST_TEMP/file.txt"
     assert_success
 }
+
+@test "fails for mixed valid and invalid markdown files" {
+    cat > "$TEST_TEMP/good.md" << 'MDEOF'
+# Hello
+
+This is valid markdown.
+MDEOF
+    cat > "$TEST_TEMP/bad.md" << 'MDEOF'
+# Hello
+text without blank line after heading
+MDEOF
+    run lefthook-markdownlint-agentic "$TEST_TEMP/good.md" "$TEST_TEMP/bad.md"
+    assert_failure
+    assert_output --partial "bad.md"
+}
+
+@test "fails for mixed valid/invalid markdown with non-.md and missing files" {
+    cat > "$TEST_TEMP/good.md" << 'MDEOF'
+# Hello
+
+This is valid markdown.
+MDEOF
+    cat > "$TEST_TEMP/bad.md" << 'MDEOF'
+# Hello
+text without blank line after heading
+MDEOF
+    touch "$TEST_TEMP/file.txt"
+    run lefthook-markdownlint-agentic \
+        "$TEST_TEMP/good.md" \
+        "$TEST_TEMP/bad.md" \
+        "$TEST_TEMP/file.txt" \
+        "$TEST_TEMP/nonexistent.md"
+    assert_failure
+    assert_output --partial "bad.md"
+    refute_output --partial "file.txt"
+    refute_output --partial "nonexistent.md"
+}
+
+@test "succeeds for multiple valid markdown files" {
+    cat > "$TEST_TEMP/one.md" << 'MDEOF'
+# First
+
+Content here.
+MDEOF
+    cat > "$TEST_TEMP/two.md" << 'MDEOF'
+# Second
+
+More content.
+MDEOF
+    run lefthook-markdownlint-agentic "$TEST_TEMP/one.md" "$TEST_TEMP/two.md"
+    assert_success
+}
