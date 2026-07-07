@@ -87,6 +87,19 @@ MDEOF
     assert_failure
 }
 
+@test "accepts table with inconsistent column style (MD060)" {
+    cat > "$TEST_TEMP/table-style.md" << 'MDEOF'
+# Data
+
+| Name  | Value |
+| ----- | ----- |
+| Alice | 1     |
+|Bob|2|
+MDEOF
+    run lefthook-markdownlint-agentic "$TEST_TEMP/table-style.md"
+    assert_success
+}
+
 @test "filters non-.md files from mixed input" {
     cat > "$TEST_TEMP/good.md" << 'MDEOF'
 # Hello
