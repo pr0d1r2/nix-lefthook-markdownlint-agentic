@@ -62,7 +62,7 @@ files, runs `markdownlint --disable MD031 MD040 MD041 MD060 --`.
 | `x` | T4 | Add `.md`/`.sh` to `file_size_limits.yml` |
 | `x` | T5 | Add bats test for timeout env var behavior |
 | `x` | T6 | Add bats test for mixed valid/invalid multi-file input |
-| `.` | T7 | Pin lefthook remote refs to commits, not `main` |
+| `x` | T7 | Pin lefthook remote refs to commits, not `main` |
 | `.` | T8 | Add negative test: non-disabled rules still fail |
 
 ## §B — Bugs / Known Issues
