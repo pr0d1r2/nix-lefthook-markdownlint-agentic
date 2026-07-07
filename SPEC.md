@@ -62,16 +62,9 @@ files, runs `markdownlint --disable MD031 MD040 MD041 MD060 --`.
 | `x` | T4 | Add `.md`/`.sh` to `file_size_limits.yml` |
 | `x` | T5 | Add bats test for timeout env var behavior |
 | `x` | T6 | Add bats test for mixed valid/invalid multi-file input |
-| `.` | T7 | Pin lefthook remote refs to commits, not `main` |
+| `x` | T7 | Pin lefthook remote refs to commits, not `main` |
 | `.` | T8 | Add negative test: non-disabled rules still fail |
 
 ## §B — Bugs / Known Issues
 
-1. `.envrc` has only `use flake` — no `watch_file` entries for `dev.sh`
-  or `flake.nix`, so direnv does not reload on changes to those files.
-2. Inconsistent bats load paths: `dev.bats` uses `load.bash` extension,
-  `lefthook-markdownlint-agentic.bats` uses `load` without it.
-3. `file_size_limits.yml` omits `md`, `sh`, `toml` extensions tracked
-  in the repo, falling through to a 4096-byte default.
-4. All 17 lefthook remotes pin to `ref: main`, not specific commits.
-5. No test verifies that non-disabled rules still produce failures.
+1. No test verifies that non-disabled rules still produce failures.
