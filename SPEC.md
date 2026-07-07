@@ -63,8 +63,8 @@ files, runs `markdownlint --disable MD031 MD040 MD041 MD060 --`.
 | `x` | T5 | Add bats test for timeout env var behavior |
 | `x` | T6 | Add bats test for mixed valid/invalid multi-file input |
 | `x` | T7 | Pin lefthook remote refs to commits, not `main` |
-| `.` | T8 | Add negative test: non-disabled rules still fail |
+| `x` | T8 | Add negative test: non-disabled rules still fail |
 
 ## §B — Bugs / Known Issues
 
-1. No test verifies that non-disabled rules still produce failures.
+(none)

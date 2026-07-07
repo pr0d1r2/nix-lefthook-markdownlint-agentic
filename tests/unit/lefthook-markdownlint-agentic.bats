@@ -148,6 +148,20 @@ MDEOF
     refute_output --partial "nonexistent.md"
 }
 
+@test "non-disabled rules still produce failures" {
+    cat > "$TEST_TEMP/multi-blank.md" << 'MDEOF'
+# Heading
+
+Content here.
+
+
+Extra blank line above violates MD012.
+MDEOF
+    run lefthook-markdownlint-agentic "$TEST_TEMP/multi-blank.md"
+    assert_failure
+    assert_output --partial "MD012"
+}
+
 @test "succeeds for multiple valid markdown files" {
     cat > "$TEST_TEMP/one.md" << 'MDEOF'
 # First
