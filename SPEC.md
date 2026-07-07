@@ -59,7 +59,7 @@ files, runs `markdownlint --disable MD031 MD040 MD041 MD060 --`.
 | `x` | T1 | Add `watch_file` entries in `.envrc` for flake modules |
 | `x` | T2 | Add bats test verifying MD060 is accepted when disabled |
 | `x` | T3 | Normalize bats load paths (`.bash` extension inconsistency) |
-| `.` | T4 | Add `.md`/`.sh` to `file_size_limits.yml` |
+| `x` | T4 | Add `.md`/`.sh` to `file_size_limits.yml` |
 | `.` | T5 | Add bats test for timeout env var behavior |
 | `.` | T6 | Add bats test for mixed valid/invalid multi-file input |
 | `.` | T7 | Pin lefthook remote refs to commits, not `main` |
