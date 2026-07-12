@@ -16,7 +16,7 @@ repos alongside strict markdownlint configs.
 3. Exits 0 with no arguments.
 4. Exits 0 when no arguments are `.md` files.
 5. Silently skips files that do not exist on disk.
-6. MD031, MD040, MD041, MD060 always disabled via `--disable`.
+6. MD031, MD040, MD041, MD060 always disabled; MD013 capped at 500 chars.
 7. Every lefthook action has a configurable timeout (default 30s).
 8. All checks defined for both pre-commit and pre-push.
 9. Shell scripts invoked with explicit `bash`, never `./script.sh`.
@@ -30,7 +30,7 @@ repos alongside strict markdownlint configs.
 ### CLI
 
 `lefthook-markdownlint-agentic [file ...]` — filters to existing `.md`
-files, runs `markdownlint --disable MD031 MD040 MD041 MD060 --`.
+files, runs `markdownlint --config .markdownlint-agentic.yml --`.
 
 ### Environment variables
 
@@ -50,7 +50,8 @@ files, runs `markdownlint --disable MD031 MD040 MD041 MD060 --`.
 ### Config files
 
 `lefthook.yml`, `lefthook-remote.yml`, `.markdownlint.yml`,
-`.yamllint.yml`, `.editorconfig`, `config/lefthook/file_size_limits.yml`.
+`.markdownlint-agentic.yml`, `.yamllint.yml`, `.editorconfig`,
+`config/lefthook/file_size_limits.yml`.
 
 ## §T — Tasks
 
