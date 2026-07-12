@@ -176,3 +176,34 @@ MDEOF
     run lefthook-markdownlint-agentic "$TEST_TEMP/one.md" "$TEST_TEMP/two.md"
     assert_success
 }
+
+@test "accepts a 437-char line (within 500 limit)" {
+    {
+        echo '# Test'
+        echo ''
+        python3 -c "print('a' * 436 + ' x')"
+    } > "$TEST_TEMP/long437.md"
+    run lefthook-markdownlint-agentic "$TEST_TEMP/long437.md"
+    assert_success
+}
+
+@test "accepts a 500-char line (at boundary)" {
+    {
+        echo '# Test'
+        echo ''
+        python3 -c "print('a' * 499 + 'x')"
+    } > "$TEST_TEMP/long500.md"
+    run lefthook-markdownlint-agentic "$TEST_TEMP/long500.md"
+    assert_success
+}
+
+@test "rejects a line exceeding 500 chars (MD013)" {
+    {
+        echo '# Test'
+        echo ''
+        python3 -c "print('a' * 500 + ' word')"
+    } > "$TEST_TEMP/long505.md"
+    run lefthook-markdownlint-agentic "$TEST_TEMP/long505.md"
+    assert_failure
+    assert_output --partial "MD013"
+}
