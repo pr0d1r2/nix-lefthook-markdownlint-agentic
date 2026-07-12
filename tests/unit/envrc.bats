@@ -62,3 +62,12 @@ teardown() {
     run grep -q "lefthook-markdownlint-agentic.sh" "$WATCH_LOG"
     assert_success
 }
+
+@test "watches .markdownlint-agentic.yml for changes" {
+    # shellcheck disable=SC2030,SC2031
+    export PATH="$TMPDIR/bin:$PATH"
+    # shellcheck disable=SC1091
+    source "$TMPDIR/envrc"
+    run grep -q ".markdownlint-agentic.yml" "$WATCH_LOG"
+    assert_success
+}
