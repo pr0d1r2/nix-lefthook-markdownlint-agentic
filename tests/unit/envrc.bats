@@ -54,6 +54,15 @@ teardown() {
     assert_success
 }
 
+@test "watches confirm.sh for changes" {
+    # shellcheck disable=SC2030,SC2031
+    export PATH="$TMPDIR/bin:$PATH"
+    # shellcheck disable=SC1091
+    source "$TMPDIR/envrc"
+    run grep -q "confirm.sh" "$WATCH_LOG"
+    assert_success
+}
+
 @test "watches lefthook-markdownlint-agentic.sh for changes" {
     # shellcheck disable=SC2030,SC2031
     export PATH="$TMPDIR/bin:$PATH"
