@@ -1,7 +1,5 @@
 result
 result-*
-.direnv
-flake.lock
 .direnv/
 .markdownlint.yml
 .yamllint.yml

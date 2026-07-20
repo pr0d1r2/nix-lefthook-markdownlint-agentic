@@ -15,19 +15,19 @@
     nix-dev-shell-agentic = {
       url = "github:pr0d1r2/nix-dev-shell-agentic";
       inputs.nixpkgs.follows = "nixpkgs";
-      };
+    };
     nix-lefthook-bats-parse = {
       url = "github:pr0d1r2/nix-lefthook-bats-parse";
       inputs.nixpkgs.follows = "nixpkgs";
-      };
+    };
     nix-lefthook-bats-unit = {
       url = "github:pr0d1r2/nix-lefthook-bats-unit";
       inputs.nixpkgs.follows = "nixpkgs";
-      };
+    };
     nix-lefthook-nix-flake-check = {
       url = "github:pr0d1r2/nix-lefthook-nix-flake-check";
       inputs.nixpkgs.follows = "nixpkgs";
-      };
+    };
   };
 
   outputs =
@@ -35,10 +35,6 @@
       self,
       nixpkgs,
       set-and-setting,
-      nix-dev-shell-agentic,
-      nix-lefthook-bats-parse,
-      nix-lefthook-bats-unit,
-      nix-lefthook-nix-flake-check,
       ...
     }:
     let
@@ -63,6 +59,13 @@
     {
       packages = forAllSystems (pkgs: {
         setting = (set-and-setting.lib.mkSetting { inherit pkgs; }).materialized;
+        default = pkgs.writeShellApplication {
+          name = "lefthook-markdownlint-agentic";
+          runtimeInputs = [ pkgs.markdownlint-cli ];
+          text = builtins.replaceStrings [ "@MARKDOWNLINT_AGENTIC_CONFIG@" ] [ ".markdownlint-agentic.yml" ] (
+            builtins.readFile ./lefthook-markdownlint-agentic.sh
+          );
+        };
       });
 
       devShells = forAllSystems (
@@ -70,10 +73,14 @@
         let
           mat = set-and-setting.lib.materializationFor { inherit pkgs fragments; };
           sys = pkgs.stdenv.hostPlatform.system;
+          localWrapper = self.packages.${sys}.default;
+          packages = builtins.filter (p: p.name or "" != "lefthook-markdownlint-agentic") mat.packages ++ [
+            localWrapper
+          ];
         in
         set-and-setting.lib.mkDevShells {
           inherit pkgs;
-          basePackages = mat.packages;
+          basePackages = packages;
           settingHook = ''
             ${self.packages.${sys}.setting}/bin/sync-setting .
             _assemble_out="$(mktemp -d)"
@@ -102,32 +109,44 @@
         }
       );
 
-      apps = forAllSystems (pkgs: {
-        confirm = {
-          type = "app";
-          program = "${
-            pkgs.writeShellApplication {
-              name = "confirm";
-              runtimeInputs = [
-                pkgs.coreutils
-                pkgs.diffutils
-                pkgs.findutils
-                pkgs.gawk
-                pkgs.git
-                pkgs.gnugrep
-              ];
-              text = ''
-                export FRAGMENTS_DIR="${set-and-setting}/setting/integrations/lefthook"
-                export ASSEMBLE_SCRIPT="${set-and-setting}/setting/lib/assemble-lefthook.sh"
-                export DETECT_SCRIPT="${set-and-setting}/setting/lib/detect-fragments.sh"
-                export SETTING_SRC="${self.packages.${pkgs.stdenv.hostPlatform.system}.setting}"
-                export CONFIRM_SCRIPT="${set-and-setting}/lib/confirm.sh"
-                export CONFIRM_REV="${set-and-setting.rev or "unknown"}"
-                bash "$CONFIRM_SCRIPT"
-              '';
-            }
-          }/bin/confirm";
-        };
-      });
+      apps = forAllSystems (
+        pkgs:
+        let
+          mat = set-and-setting.lib.materializationFor { inherit pkgs fragments; };
+          sys = pkgs.stdenv.hostPlatform.system;
+          localWrapper = self.packages.${sys}.default;
+          packages = builtins.filter (p: p.name or "" != "lefthook-markdownlint-agentic") mat.packages ++ [
+            localWrapper
+          ];
+        in
+        {
+          confirm = {
+            type = "app";
+            program = "${
+              pkgs.writeShellApplication {
+                name = "confirm";
+                runtimeInputs = [
+                  pkgs.coreutils
+                  pkgs.diffutils
+                  pkgs.findutils
+                  pkgs.gawk
+                  pkgs.git
+                  pkgs.gnugrep
+                ]
+                ++ packages;
+                text = ''
+                  bash ${./confirm.sh} \
+                    "${set-and-setting}/setting/integrations/lefthook" \
+                    "${set-and-setting}/setting/lib/assemble-lefthook.sh" \
+                    "${set-and-setting}/setting/lib/detect-fragments.sh" \
+                    "${self.packages.${pkgs.stdenv.hostPlatform.system}.setting}" \
+                    "${set-and-setting}/lib/confirm.sh" \
+                    "${set-and-setting.rev or "unknown"}"
+                '';
+              }
+            }/bin/confirm";
+          };
+        }
+      );
     };
 }
