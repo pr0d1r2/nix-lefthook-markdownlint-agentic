@@ -57,16 +57,29 @@
       ];
     in
     {
-      packages = forAllSystems (pkgs: {
-        setting = (set-and-setting.lib.mkSetting { inherit pkgs; }).materialized;
-        default = pkgs.writeShellApplication {
-          name = "lefthook-markdownlint-agentic";
-          runtimeInputs = [ pkgs.markdownlint-cli ];
-          text =
-            builtins.replaceStrings [ "@MARKDOWNLINT_AGENTIC_CONFIG@" ] [ "${./.markdownlint-agentic.yml}" ]
-              (builtins.readFile ./lefthook-markdownlint-agentic.sh);
-        };
-      });
+      packages = forAllSystems (
+        pkgs:
+        let
+          is-markdown-agentic = pkgs.writeShellApplication {
+            name = "is-markdown-agentic";
+            text = builtins.readFile ./is-markdown-agentic.sh;
+          };
+        in
+        {
+          setting = (set-and-setting.lib.mkSetting { inherit pkgs; }).materialized;
+          default = pkgs.writeShellApplication {
+            name = "lefthook-markdownlint-agentic";
+            runtimeInputs = [
+              pkgs.markdownlint-cli
+              is-markdown-agentic
+            ];
+            text =
+              builtins.replaceStrings [ "@MARKDOWNLINT_AGENTIC_CONFIG@" ] [ "${./.markdownlint-agentic.yml}" ]
+                (builtins.readFile ./lefthook-markdownlint-agentic.sh);
+          };
+          inherit is-markdown-agentic;
+        }
+      );
 
       devShells = forAllSystems (
         pkgs:
