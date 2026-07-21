@@ -24,13 +24,18 @@ repos alongside strict markdownlint configs.
 11. CI: Linux on every PR/push; macOS on push and manual dispatch.
 12. Dev shell auto-installs lefthook when hooks are absent.
 13. `nix flake check` must pass.
+14. Non-agentic Markdown is silently skipped even when upstream routing passes it to the wrapper.
 
 ## §I — Interfaces
 
 ### CLI
 
-`lefthook-markdownlint-agentic [file ...]` — filters to existing `.md`
-files, runs `markdownlint --config .markdownlint-agentic.yml --`.
+`lefthook-markdownlint-agentic [file ...]` — filters to existing agentic `.md`
+files under `agent/`, `.claude/`, and `files/commands/`, then runs
+`markdownlint --config .markdownlint-agentic.yml --`.
+
+`is-markdown-agentic <path>` — exits 0 when the path is Markdown under a
+supported agentic directory and exits 1 otherwise.
 
 ### Environment variables
 
@@ -43,7 +48,8 @@ files, runs `markdownlint --config .markdownlint-agentic.yml --`.
 
 | Output | Description |
 | --- | --- |
-| `packages.<system>.default` | Shell wrapper with markdownlint-cli |
+| `packages.<system>.default` | Guarded shell wrapper with markdownlint-cli |
+| `packages.<system>.is-markdown-agentic` | Agentic Markdown path classifier |
 | `devShells.<system>.default` | Dev shell with all tools |
 | `devShells.<system>.ci` | CI-oriented shell |
 

@@ -15,7 +15,9 @@ Disables agentic-specific rules via `--disable` flags, so consuming repos can ke
 
 The project's `.markdownlint.yml` is still respected for all other rules (e.g., MD013, MD024 if disabled there).
 
-Filters `.md` files from staged arguments and runs markdownlint on them. Exits 0 when no matching files are found.
+Filters staged arguments to agentic Markdown under `agent/`, `.claude/`, and
+`files/commands/`, then runs markdownlint on that subset. Ordinary documentation
+is skipped, and the wrapper exits 0 when no agentic files are found.
 
 ## Usage
 
@@ -72,6 +74,11 @@ Use alongside [nix-lefthook-markdownlint](https://github.com/pr0d1r2/nix-lefthoo
 
 - **markdownlint** -- standard docs: README, CHANGELOG, SPEC, docs/
 - **markdownlint-agentic** -- skill/command files: .claude/skills/, .claude/commands/, files/commands/, agent/
+
+The packaged `is-markdown-agentic <path>` command exposes the same path
+predicate used by the wrapper. Routing exclusions remain useful to avoid
+unnecessary invocations, but the wrapper independently skips non-agentic paths
+as a defense-in-depth measure.
 
 ## Development
 

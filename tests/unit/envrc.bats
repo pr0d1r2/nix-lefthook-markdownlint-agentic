@@ -72,6 +72,15 @@ teardown() {
     assert_success
 }
 
+@test "watches is-markdown-agentic.sh for changes" {
+    # shellcheck disable=SC2030,SC2031
+    export PATH="$TMPDIR/bin:$PATH"
+    # shellcheck disable=SC1091
+    source "$TMPDIR/envrc"
+    run grep -q "is-markdown-agentic.sh" "$WATCH_LOG"
+    assert_success
+}
+
 @test "watches .markdownlint-agentic.yml for changes" {
     # shellcheck disable=SC2030,SC2031
     export PATH="$TMPDIR/bin:$PATH"

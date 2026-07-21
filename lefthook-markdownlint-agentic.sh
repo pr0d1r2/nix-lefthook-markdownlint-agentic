@@ -10,7 +10,11 @@ files=()
 for f in "$@"; do
   [ -f "$f" ] || continue
   case "$f" in
-    *.md) files+=("$f") ;;
+    *.md)
+      if is-markdown-agentic "$f"; then
+        files+=("$f")
+      fi
+      ;;
   esac
 done
 
