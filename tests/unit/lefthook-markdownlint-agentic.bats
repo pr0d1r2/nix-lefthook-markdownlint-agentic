@@ -228,6 +228,15 @@ MDEOF
     assert_success
 }
 
+@test "skips ordinary documentation reached through an agentic traversal" {
+    cat > "$TEST_TEMP/README.md" << 'MDEOF'
+# Ordinary documentation
+text without blank line after heading
+MDEOF
+    run lefthook-markdownlint-agentic "$TEST_TEMP/agent/../README.md"
+    assert_success
+}
+
 @test "lints agentic input and skips ordinary documentation in the same invocation" {
     cat > "$TEST_TEMP/README.md" << 'MDEOF'
 # Ordinary documentation

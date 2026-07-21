@@ -7,6 +7,11 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
+# Do not let a lexical agentic prefix route a path that escapes it.
+case "/$1/" in
+  */../*) exit 1 ;;
+esac
+
 case "$1" in
   agent/*.md | */agent/*.md) exit 0 ;;
   .claude/*.md | */.claude/*.md) exit 0 ;;

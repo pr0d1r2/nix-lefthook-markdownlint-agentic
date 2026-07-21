@@ -25,6 +25,9 @@ setup() {
 
     run is-markdown-agentic "docs/guide.md"
     assert_failure
+
+    run is-markdown-agentic "agent/../README.md"
+    assert_failure
 }
 
 @test "requires exactly one markdown path" {
