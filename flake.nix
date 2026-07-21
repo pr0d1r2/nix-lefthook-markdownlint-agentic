@@ -62,9 +62,9 @@
         default = pkgs.writeShellApplication {
           name = "lefthook-markdownlint-agentic";
           runtimeInputs = [ pkgs.markdownlint-cli ];
-          text = builtins.replaceStrings [ "@MARKDOWNLINT_AGENTIC_CONFIG@" ] [ ".markdownlint-agentic.yml" ] (
-            builtins.readFile ./lefthook-markdownlint-agentic.sh
-          );
+          text =
+            builtins.replaceStrings [ "@MARKDOWNLINT_AGENTIC_CONFIG@" ] [ "${./.markdownlint-agentic.yml}" ]
+              (builtins.readFile ./lefthook-markdownlint-agentic.sh);
         };
       });
 

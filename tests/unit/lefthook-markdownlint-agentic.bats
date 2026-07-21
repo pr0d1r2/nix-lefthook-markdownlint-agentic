@@ -38,6 +38,17 @@ MDEOF
     assert_success
 }
 
+@test "uses packaged config outside the project directory" {
+    cat > "$TEST_TEMP/standalone.md" << 'MDEOF'
+# Standalone
+
+This file is linted from a directory without a local config.
+MDEOF
+    cd "$TEST_TEMP"
+    run lefthook-markdownlint-agentic standalone.md
+    assert_success
+}
+
 @test "accepts markdown without heading (agentic style)" {
     cat > "$TEST_TEMP/skill.md" << 'MDEOF'
 This skill file starts with a description, not a heading.
