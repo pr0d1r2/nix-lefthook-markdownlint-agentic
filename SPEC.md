@@ -81,3 +81,4 @@ supported agentic directory and exits 1 otherwise.
 | B3 | 2026-07-20 | Embedded shell (export statements) in flake.nix confirm app text block (nix-no-embedded-shell failure) | Extract shell to confirm.sh, call via `bash ${./confirm.sh}` |
 | B4 | 2026-07-20 | flake.lock erroneously gitignored; dep-graph check fails on missing lock file | Remove flake.lock from .gitignore, track in git |
 | B5 | 2026-07-20 | file\_size\_limits.yml too small for flake.lock (784KB > 256KB) and bats test (4716 > 4096) | Raise .lock limit to 1MB, .bats limit to 8KB |
+| B6 | 2026-07-23 | Pin refresh grew generated flake.lock beyond the 1MB .lock file-size limit | Raise the .lock limit to 2MB |
