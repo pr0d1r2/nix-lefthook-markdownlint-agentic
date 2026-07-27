@@ -82,3 +82,4 @@ supported agentic directory and exits 1 otherwise.
 | B4 | 2026-07-20 | flake.lock erroneously gitignored; dep-graph check fails on missing lock file | Remove flake.lock from .gitignore, track in git |
 | B5 | 2026-07-20 | file\_size\_limits.yml too small for flake.lock (784KB > 256KB) and bats test (4716 > 4096) | Raise .lock limit to 1MB, .bats limit to 8KB |
 | B6 | 2026-07-23 | Pin refresh grew generated flake.lock beyond the 1MB .lock file-size limit | Raise the .lock limit to 2MB |
+| B7 | 2026-07-27 | Pin refresh grew generated flake.lock beyond the 2MB .lock limit; recording the failure grew SPEC.md beyond the 4KB .md limit | Raise the .lock limit to 4MB and .md limit to 8KB |
