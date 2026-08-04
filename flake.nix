@@ -11,23 +11,6 @@
     nixpkgs.follows = "nixpkgs-lock/nixpkgs";
 
     set-and-setting.url = "github:pr0d1r2/set-and-setting";
-
-    nix-dev-shell-agentic = {
-      url = "github:pr0d1r2/nix-dev-shell-agentic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-lefthook-bats-parse = {
-      url = "github:pr0d1r2/nix-lefthook-bats-parse";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-lefthook-bats-unit = {
-      url = "github:pr0d1r2/nix-lefthook-bats-unit";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nix-lefthook-nix-flake-check = {
-      url = "github:pr0d1r2/nix-lefthook-nix-flake-check";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -37,7 +20,16 @@
       set-and-setting,
       ...
     }:
-    import ./nix/outputs.nix {
+    set-and-setting.lib.mkConsumerFlake {
       inherit self nixpkgs set-and-setting;
+      fragments = [
+        "base"
+        "nix"
+        "shell"
+        "ascii"
+        "markdown"
+        "yaml"
+      ];
+      src = ./.;
     };
 }
