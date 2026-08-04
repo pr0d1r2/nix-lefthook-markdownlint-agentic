@@ -84,3 +84,4 @@ supported agentic directory and exits 1 otherwise.
 | B6 | 2026-07-23 | Pin refresh grew generated flake.lock beyond the 1MB .lock file-size limit | Raise the .lock limit to 2MB |
 | B7 | 2026-07-27 | Pin refresh grew generated flake.lock beyond the 2MB .lock limit; recording the failure grew SPEC.md beyond the 4KB .md limit | Raise the .lock limit to 4MB and .md limit to 8KB |
 | B8 | 2026-07-29 | Pin refresh locked set-and-setting to rev d2fa92cc that lacks `lib` output, breaking flake evaluation (`attribute 'lib' missing`) | Update set-and-setting input to latest rev (92febe03) which restores `lib` |
+| B9 | 2026-08-04 | Pin refresh introduced flake-manifest-check failure: outputs used inline `let` block with top-level bindings (`supportedSystems`, `forAllSystems`, `fragments`) which the strict manifest checker rejects | Extract outputs body to `nix/outputs.nix`, delegate from `flake.nix` via `import ./nix/outputs.nix` |
