@@ -6,14 +6,17 @@
 
 Lefthook-compatible [markdownlint](https://github.com/igorshubovych/markdownlint-cli) wrapper for agentic skill and command files, packaged as a Nix flake.
 
-Disables agentic-specific rules via `--disable` flags, so consuming repos can keep a strict `.markdownlint.yml` for documentation while this wrapper relaxes rules for skill/command files:
+Applies a dedicated `.markdownlint-agentic.yml` config (via `markdownlint --config`), so consuming repos can keep a strict `.markdownlint.yml` for documentation while this wrapper relaxes rules for skill/command files:
 
-- **MD031** (fenced code blocks in list items) -- disabled via `--disable`
-- **MD040** (fenced code block language) -- disabled via `--disable`
-- **MD041** (first line heading) -- disabled via `--disable`
-- **MD060** (table column count) -- disabled via `--disable`
+- **MD031** (fenced code blocks in list items) -- disabled
+- **MD040** (fenced code block language) -- disabled
+- **MD041** (first line heading) -- disabled
+- **MD060** (table column count) -- disabled
 
-The project's `.markdownlint.yml` is still respected for all other rules (e.g., MD013, MD024 if disabled there).
+Line length (MD013) is capped at 500 characters. Because it runs with an
+explicit `--config`, the wrapper uses `.markdownlint-agentic.yml` alone and does
+not merge your project's `.markdownlint.yml` -- keep the strict config for
+ordinary documentation, checked by the companion linter below.
 
 Filters staged arguments to agentic Markdown under `agent/`, `.claude/`, and
 `files/commands/`, then runs markdownlint on that subset. Ordinary documentation
