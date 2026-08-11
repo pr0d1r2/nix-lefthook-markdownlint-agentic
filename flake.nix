@@ -21,8 +21,7 @@
       set-and-setting,
       ...
     }:
-    set-and-setting.lib.mkConsumerFlake {
-      inherit self nixpkgs set-and-setting;
+    let
       fragments = [
         "base"
         "nix"
@@ -31,6 +30,11 @@
         "markdown"
         "yaml"
       ];
-      src = ./.;
-    };
+      scaffold = set-and-setting.lib.mkConsumerFlake {
+        inherit self nixpkgs set-and-setting fragments;
+        src = ./.;
+      };
+      project = import ./nix/outputs.nix { inherit self nixpkgs set-and-setting; };
+    in
+    nixpkgs.lib.recursiveUpdate scaffold project;
 }
