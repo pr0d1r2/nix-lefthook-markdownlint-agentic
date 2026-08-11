@@ -21,7 +21,7 @@
       set-and-setting,
       ...
     }:
-    set-and-setting.lib.mkConsumerFlake {
+    nixpkgs.lib.recursiveUpdate (set-and-setting.lib.mkConsumerFlake {
       inherit self nixpkgs set-and-setting;
       fragments = [
         "base"
@@ -32,5 +32,5 @@
         "yaml"
       ];
       src = ./.;
-    };
+    }) (import ./nix/outputs.nix { inherit self nixpkgs set-and-setting; });
 }
