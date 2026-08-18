@@ -1,0 +1,8 @@
+---
+exempt:
+  - class: ".github/workflows"
+    ticket: 319
+  - class: "bats"
+    ticket: 320
+  - class: "lock"
+    ticket: 335
