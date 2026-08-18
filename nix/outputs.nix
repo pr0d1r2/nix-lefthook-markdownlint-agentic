@@ -77,10 +77,23 @@ in
   checks = forAllSystems (
     pkgs:
     (set-and-setting.lib.checksFor {
-      inherit pkgs fragments;
+      inherit pkgs;
+      fragments = builtins.filter (fragment: fragment != "actions") fragments;
       src = ../.;
     })
     // {
+      actionlint = pkgs.runCommand "actionlint-check" { nativeBuildInputs = [ pkgs.findutils pkgs.actionlint ]; } ''
+        cd ${../.}
+        mapfile -t matches < <(find .github/workflows -type f \( -name '*.yml' -o -name '*.yaml' \) | sort)
+        if [ ''${#matches[@]} -eq 0 ]; then
+          echo "actionlint: no matching files, nothing to check"
+          touch $out
+          exit 0
+        fi
+        actionlint "''${matches[@]}"
+        echo "actionlint: PASS (''${#matches[@]} files)"
+        touch $out
+      '';
       dep-graph = set-and-setting.lib.mkDepGraphCheck {
         inherit pkgs;
         projectRoot = ../.;
