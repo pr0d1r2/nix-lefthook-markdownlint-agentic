@@ -89,3 +89,4 @@ supported agentic directory and exits 1 otherwise.
 | B11 | 2026-08-18 | The `actions` lefthook fragment was omitted from the materialization list, causing guardrail fidelity drift | Include the `actions` fragment in flake materialization |
 | B12 | 2026-08-18 | The shared actionlint check passed a scalar regex to the current Nix source-filter API, which now requires a list | Keep the actionlint hook materialized, but define the flake check with direct workflow discovery and the pinned `actionlint` binary |
 | B13 | 2026-08-18 | The guardrail linter-coverage check requires the repository exemption manifest, which was absent | Add the scoped exemption manifest for repository file classes not covered by configured linters |
+| B14 | 2026-08-18 | The extracted actionlint check in `nix/outputs.nix` was not formatted with the repository's nixfmt style, causing the guardrails check to fail | Format the actionlint derivation with the canonical multiline nixfmt layout |
