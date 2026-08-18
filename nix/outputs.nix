@@ -17,6 +17,7 @@ let
     "base"
     "nix"
     "shell"
+    "actions"
     "ascii"
     "markdown"
     "yaml"
