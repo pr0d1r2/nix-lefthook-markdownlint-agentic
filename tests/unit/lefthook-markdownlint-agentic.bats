@@ -1,16 +1,17 @@
 #!/usr/bin/env bats
 
 setup() {
-    load "${BATS_LIB_PATH}/bats-support/load.bash"
-    load "${BATS_LIB_PATH}/bats-assert/load.bash"
-    load "${BATS_LIB_PATH}/bats-file/load.bash"
+    bats_load_library bats-support
+    bats_load_library bats-assert
+    bats_load_library bats-file
+    load local-tools
 
     TEST_TEMP="$(mktemp -d)"
     mkdir -p "$TEST_TEMP/agent"
 }
 
 teardown() {
-    rm -rf "$TEST_TEMP"
+    rm -rf "$TEST_TEMP" "$LOCAL_TOOLS"
 }
 
 @test "exits 0 with no arguments" {
@@ -193,7 +194,7 @@ MDEOF
     {
         echo '# Test'
         echo ''
-        python3 -c "print('a' * 436 + ' x')"
+        printf '%s x\n' "$(printf '%*s' 436 '' | tr ' ' a)"
     } > "$TEST_TEMP/agent/long437.md"
     run lefthook-markdownlint-agentic "$TEST_TEMP/agent/long437.md"
     assert_success
@@ -203,7 +204,7 @@ MDEOF
     {
         echo '# Test'
         echo ''
-        python3 -c "print('a' * 499 + 'x')"
+        printf '%sx\n' "$(printf '%*s' 499 '' | tr ' ' a)"
     } > "$TEST_TEMP/agent/long500.md"
     run lefthook-markdownlint-agentic "$TEST_TEMP/agent/long500.md"
     assert_success
@@ -213,7 +214,7 @@ MDEOF
     {
         echo '# Test'
         echo ''
-        python3 -c "print('a' * 500 + ' word')"
+        printf '%s word\n' "$(printf '%*s' 500 '' | tr ' ' a)"
     } > "$TEST_TEMP/agent/long505.md"
     run lefthook-markdownlint-agentic "$TEST_TEMP/agent/long505.md"
     assert_failure
