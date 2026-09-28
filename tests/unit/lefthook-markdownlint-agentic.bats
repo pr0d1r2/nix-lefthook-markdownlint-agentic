@@ -1,16 +1,17 @@
 #!/usr/bin/env bats
 
 setup() {
-    load "${BATS_LIB_PATH}/bats-support/load.bash"
-    load "${BATS_LIB_PATH}/bats-assert/load.bash"
-    load "${BATS_LIB_PATH}/bats-file/load.bash"
+    bats_load_library bats-support
+    bats_load_library bats-assert
+    bats_load_library bats-file
+    load local-tools
 
     TEST_TEMP="$(mktemp -d)"
     mkdir -p "$TEST_TEMP/agent"
 }
 
 teardown() {
-    rm -rf "$TEST_TEMP"
+    rm -rf "$TEST_TEMP" "$LOCAL_TOOLS"
 }
 
 @test "exits 0 with no arguments" {
