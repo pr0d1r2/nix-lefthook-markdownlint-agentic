@@ -54,10 +54,16 @@ in
       mat = set-and-setting.lib.materializationFor { inherit pkgs fragments; };
       sys = pkgs.stdenv.hostPlatform.system;
       localWrapper = self.packages.${sys}.default;
+      batsWithLibs = pkgs.bats.withLibraries (p: [
+        p.bats-support
+        p.bats-assert
+        p.bats-file
+      ]);
       packages = builtins.filter (p: p.name or "" != "lefthook-markdownlint-agentic") mat.packages ++ [
-        pkgs.bats
+        batsWithLibs
         pkgs.actionlint
         localWrapper
+        self.packages.${sys}.is-markdown-agentic
       ];
     in
     set-and-setting.lib.mkDevShells {

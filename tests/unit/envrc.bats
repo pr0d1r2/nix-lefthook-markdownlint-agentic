@@ -20,7 +20,7 @@ SH
 #!/usr/bin/env bash
 :
 SH
-    chmod +x "$TMPDIR/bin/use"
+    chmod +x "$TEST_TMPDIR/bin/use"
 }
 
 teardown() {

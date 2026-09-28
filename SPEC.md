@@ -91,3 +91,6 @@ supported agentic directory and exits 1 otherwise.
 | B13 | 2026-08-18 | The guardrail linter-coverage check requires the repository exemption manifest, which was absent | Add the scoped exemption manifest for repository file classes not covered by configured linters |
 | B14 | 2026-08-18 | The extracted actionlint check in `nix/outputs.nix` was not formatted with the repository's nixfmt style, causing the guardrails check to fail | Format the actionlint derivation with the canonical multiline nixfmt layout |
 | B15 | 2026-09-28 | Guardrails test shell did not include `bats`, causing the unit-test command to fail with `bats: not found` | Add `pkgs.bats` to the dev shell package set |
+| B16 | 2026-09-28 | Guardrails test shell provided plain `bats` without its helper libraries, causing every unit test setup to fail loading `bats-support` and `bats-assert` | Use `pkgs.bats.withLibraries` for the dev shell test runner |
+| B17 | 2026-09-28 | Dev shell omitted the `is-markdown-agentic` package required by its classifier unit tests | Add the classifier package to the dev shell package set |
+| B18 | 2026-09-28 | `envrc.bats` used the unrelated `TMPDIR` variable when making its test stub executable | Use the test's `TEST_TMPDIR` path |
