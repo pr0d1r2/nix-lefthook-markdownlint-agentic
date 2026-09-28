@@ -56,6 +56,7 @@ in
       localWrapper = self.packages.${sys}.default;
       packages = builtins.filter (p: p.name or "" != "lefthook-markdownlint-agentic") mat.packages ++ [
         pkgs.bats
+        pkgs.actionlint
         localWrapper
       ];
     in
