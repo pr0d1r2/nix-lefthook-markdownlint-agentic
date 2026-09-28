@@ -1,8 +1,8 @@
 #!/usr/bin/env bats
 
 setup() {
-    load "${BATS_LIB_PATH}/bats-support/load.bash"
-    load "${BATS_LIB_PATH}/bats-assert/load.bash"
+    bats_load_library bats-support
+    bats_load_library bats-assert
 
     TMPDIR="$(mktemp -d)"
     WATCH_LOG="$TMPDIR/watch_log"
@@ -54,12 +54,12 @@ teardown() {
     assert_success
 }
 
-@test "watches confirm.sh for changes" {
+@test "watches nix/packages.nix for changes" {
     # shellcheck disable=SC2030,SC2031
     export PATH="$TMPDIR/bin:$PATH"
     # shellcheck disable=SC1091
     source "$TMPDIR/envrc"
-    run grep -q "confirm.sh" "$WATCH_LOG"
+    run grep -q "nix/packages.nix" "$WATCH_LOG"
     assert_success
 }
 
