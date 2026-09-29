@@ -26,11 +26,12 @@ inferred.
 
 ## The audit trail is the commit log
 
-The loop commits in small, logical pieces rather than one squashed drop, and
-the commit message carries the reasoning: what was wrong, why this fix and not
-the obvious one, what was rejected and on what evidence. The log is therefore
-the review record, readable after the fact by someone who was not present when
-the work happened.
+The loop is intended to commit in small, logical pieces rather than one
+squashed drop, with the commit message carrying the reasoning: what was wrong,
+why this fix and not the obvious one, what was rejected and on what evidence.
+When that practice is followed, the log is a review record, readable after the
+fact by someone who was not present when the work happened. It is not a
+substitute for checking whether each commit actually contains that context.
 
 Read it that way:
 
